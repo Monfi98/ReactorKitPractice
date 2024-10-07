@@ -33,6 +33,11 @@ class ViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        increaseButton.rx.tap
+            .map{ Reactor.Action.increase }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // State
         reactor.state.map{ $0.value }
             .distinctUntilChanged()

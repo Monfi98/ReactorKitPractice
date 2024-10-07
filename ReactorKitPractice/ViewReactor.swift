@@ -11,10 +11,12 @@ import RxSwift
 class ViewReactor: Reactor { // ViewModel이라고 생각하면 되는듯.
     enum Action { // -> User의 액션을 나타낸다.
         case decrease
+        case increase
     }
     
     enum Mutation { // Mutation: 변화 -> 상태 변화를 나타낸다.
         case decreaseValue
+        case increaseValue
     }
     
     struct State { // 현재 뷰의 상태를 나타낸다.
@@ -31,7 +33,13 @@ class ViewReactor: Reactor { // ViewModel이라고 생각하면 되는듯.
             // 데이터 스냅샷을 전달할 수 잇는 이벤트 시퀀스를 비동기적으로 생성하는 기능을 담당한다.
             
             // Mutation.decreaseValue를 내보내고 완료됨
-            return Observable.just(Mutation.decreaseValue)
+            return Observable.concat([
+                Observable.just(Mutation.decreaseValue).delay(.seconds(1), scheduler: MainScheduler.instance),
+                ])
+        case .increase:
+            return Observable.concat([
+                Observable.just(Mutation.increaseValue).delay(.seconds(1), scheduler: MainScheduler.instance),
+                ])
         }
     }
     
@@ -43,6 +51,8 @@ class ViewReactor: Reactor { // ViewModel이라고 생각하면 되는듯.
         switch mutation {
         case .decreaseValue:
             newState.value -= 1
+        case .increaseValue:
+            newState.value += 1
         }
         
         return newState
