@@ -10,8 +10,38 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 
+class ViewController: UIViewController, View {
 
-class ViewController: UIViewController {
+    var disposeBag: DisposeBag = DisposeBag()
+    typealias Reactor = ViewReactor
+    
+    init(reactor: Reactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
+
+    required init?(coder: NSCoder) {
+        //fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+    }
+    
+    // 뷰와 리액터 사이의 action과 state를 바인드 하기 위한 메서드
+    func bind(reactor: ViewReactor) {
+        // action
+        decreaseButton.rx.tap
+            .map{ Reactor.Action.decrease }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // State
+        reactor.state.map{ $0.value }
+            .distinctUntilChanged()
+            .map{ String($0) }
+            .bind(to: valueLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        //reactor.state.map{ $0.isLoading }
+    }
     
     // MARK: - Property
     let decreaseButton: UIButton = {

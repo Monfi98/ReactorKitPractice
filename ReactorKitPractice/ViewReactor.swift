@@ -8,7 +8,7 @@
 import ReactorKit
 import RxSwift
 
-class ViewReactor: Reactor {
+class ViewReactor: Reactor { // ViewModel이라고 생각하면 되는듯.
     enum Action { // -> User의 액션을 나타낸다.
         case decrease
     }
