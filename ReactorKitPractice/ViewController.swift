@@ -39,13 +39,16 @@ class ViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         // State
-        reactor.state.map{ $0.value }
+        reactor.state.map{ $0.value } // 첫번째 map -> value를 추출하는 역할
             .distinctUntilChanged()
-            .map{ String($0) }
+            .map{ String($0) } // Int값을 String으로 바꾸는 역할
             .bind(to: valueLabel.rx.text)
             .disposed(by: disposeBag)
         
-        //reactor.state.map{ $0.isLoading }
+        reactor.state.map{ $0.isLoading }
+            .distinctUntilChanged()
+            .bind(to: activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Property

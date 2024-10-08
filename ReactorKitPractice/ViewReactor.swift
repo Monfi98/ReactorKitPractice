@@ -17,10 +17,12 @@ class ViewReactor: Reactor { // ViewModel이라고 생각하면 되는듯.
     enum Mutation { // Mutation: 변화 -> 상태 변화를 나타낸다.
         case decreaseValue
         case increaseValue
+        case setLoading(Bool)
     }
     
     struct State { // 현재 뷰의 상태를 나타낸다.
         var value: Int = 0
+        var isLoading: Bool = false
     }
     
     let initialState: State = State()
@@ -34,11 +36,15 @@ class ViewReactor: Reactor { // ViewModel이라고 생각하면 되는듯.
             
             // Mutation.decreaseValue를 내보내고 완료됨
             return Observable.concat([
+                Observable.just(Mutation.setLoading(true)),
                 Observable.just(Mutation.decreaseValue).delay(.seconds(1), scheduler: MainScheduler.instance),
+                Observable.just(Mutation.setLoading(false)),
                 ])
         case .increase:
             return Observable.concat([
+                Observable.just(Mutation.setLoading(true)),
                 Observable.just(Mutation.increaseValue).delay(.seconds(1), scheduler: MainScheduler.instance),
+                Observable.just(Mutation.setLoading(false)),
                 ])
         }
     }
@@ -53,6 +59,8 @@ class ViewReactor: Reactor { // ViewModel이라고 생각하면 되는듯.
             newState.value -= 1
         case .increaseValue:
             newState.value += 1
+        case let .setLoading(isLoading):
+            newState.isLoading = isLoading
         }
         
         return newState
