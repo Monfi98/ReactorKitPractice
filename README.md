@@ -2,6 +2,9 @@
 ReactorKit은 RxSwift와 함께 사용하는 반응형 아키텍처 패턴(Reactive Architecture Pattern)을 기반으로 한 프레임워크이다. MVVM과 유사하지만, ReactorKit은 Reactor라는 개념을 도입하여 상태 관리와 비즈니스 로직을 명확하게 분리한다.
 
 반응형, 단방향 Swift 아키텍쳐이며, Flux + Reactive Programming이라고 정의되어 있음!
+<p align="center">
+<img width="546" alt="스크린샷 2024-10-08 오전 9 53 29" src="https://github.com/user-attachments/assets/9ac8264f-ccf2-4ce9-898a-770985cf3bcd">
+</p>
 
 <br>
 
@@ -15,7 +18,7 @@ ReactorKit은 RxSwift와 함께 사용하는 반응형 아키텍처 패턴(React
 
 ## 구현
 
-### UI
+### UI 작성
 1. `+/- 버튼`, `activityIndicator`, `숫자표시 label`
 ```swift
 // MARK: - Property
@@ -88,6 +91,11 @@ func initConstraint() {
     ])
 }
 ```
+
+<br>
+
+- Result
+<img width="330" alt="스크린샷 2024-10-08 오전 9 53 29" src="https://github.com/user-attachments/assets/597fda79-290f-47f0-8217-d76c8eb58066">
 
 <br>
 
@@ -201,6 +209,8 @@ func bind(reactor: ViewReactor) {
         .disposed(by: disposeBag)
 }
 ```
+
+<br>
 
 ## 참고
 - [iOS ReactorKit과 TCA(Unidirectional pattern)](https://velog.io/@sanghwi_back/iOS-ReactorKit-%EA%B3%BC-TCA-Unidirectional-pattern)
